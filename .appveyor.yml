@@ -35,14 +35,14 @@ build_script:
       bash -lc "cd $Env:WDIR && make -j4"
       bash -lc "cd $Env:WDIR && make check"
       bash -lc "cd $Env:WDIR && cp src/.libs/libpostal-*.dll libpostal.dll"
-      & 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\lib.exe' /def:libpostal.def /out:libpostal.lib /machine:$Env:PLATFORM
+      & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\SDK\ScopeCppSDK\vc15\VC\bin\lib.exe' /def:libpostal.def /out:libpostal.lib /machine:$Env:PLATFORM
       if ($Env:BIT -eq "32") {
         $Paths = @(
           (Join-Path $Env:APPVEYOR_BUILD_FOLDER "src"),
           (Join-Path $Env:APPVEYOR_BUILD_FOLDER "src\.libs"),
           (Join-Path $Env:APPVEYOR_BUILD_FOLDER "test"),
           (Join-Path $Env:APPVEYOR_BUILD_FOLDER "test\.libs"))
-        Get-ChildItem -Path $Paths | ?{ $_.Name -Match '\.(exe|dll)$' } | % { & 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\editbin.exe' /NOLOGO /LARGEADDRESSAWARE $_.FullName }
+        Get-ChildItem -Path $Paths | ?{ $_.Name -Match '\.(exe|dll)$' } | % { & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\SDK\ScopeCppSDK\vc15\VC\bin\editbin.exe' /NOLOGO /LARGEADDRESSAWARE $_.FullName }
       }
       7z a libpostal.zip $Env:APPVEYOR_BUILD_FOLDER\libpostal.dll $Env:APPVEYOR_BUILD_FOLDER\libpostal.def $Env:APPVEYOR_BUILD_FOLDER\libpostal.exp $Env:APPVEYOR_BUILD_FOLDER\libpostal.lib $Env:APPVEYOR_BUILD_FOLDER\src\libpostal.h
     }
